@@ -1,7 +1,6 @@
-package main
+package registration
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -15,7 +14,7 @@ type User struct {
 
 var tmpl = template.Must(template.ParseFiles("register.html"))
 
-func register(w http.ResponseWriter, r *http.Request) {
+func Register(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl.Execute(w, nil)
 		return
@@ -40,13 +39,4 @@ func register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("User registered successfully!"))
-}
-
-func main() {
-	http.HandleFunc("/register", register)
-	fmt.Println("Listening on :8080...")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		fmt.Println(err)
-	}
 }

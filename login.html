@@ -1,4 +1,11 @@
-body {
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Radar Clothes Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+      body {
     background-color: #7cbcfc;
     color: #ecf0f1;
     font-family: Arial, sans-serif;
@@ -63,8 +70,15 @@ body {
 
   }
 
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #ff5e62;
+    animation: moveInLeft 1s ease-out;
+  }
+
   input[type="submit"] {
-    padding: 1rem 2rem;
+    padding: 1rem 1.2rem;
     background-color: #ff5e62;
     color: #502c4f;
     border: 2px solid #ff5e62;
@@ -84,3 +98,24 @@ body {
     position: relative;
     margin-bottom: 2rem;
   }
+    </style>
+  </style>
+<body>
+<img src="https://cdn.shopify.com/s/files/1/0596/5728/9899/files/shopify_header_688922f6-7020-45ab-92b2-90735060c479.png?v=1629603956" style="width: 40%;" class="logo">
+  <h1>Radar Clothes</h1>
+  <form action="/login" method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type= "submit" value="Register"  onclick="registerPage()"></input>
+    <input type="submit" value="Login">
+</form>
+<input type= "submit" value="Register"  onclick="registerPage()"></input>
+<script>
+  function registerPage(){
+    document.location.replace('./register');
+  }
+</script>
+
+
+</body>
+</html>
