@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			table, th, td {
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+			th, td {
+				padding: 5px;
+				text-align: left;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Item List</h1>
+		<table id="item-table">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+			</tr>
+		</table>
+		<br>
+		<h2>Add Item</h2>
+		<form action="/add-item" method="post">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name">
+			<br><br>
+			<label for="description">Description:</label>
+			<input type="text" id="description" name="description">
+			<br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</body>
+</html>

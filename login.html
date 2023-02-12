@@ -15,6 +15,11 @@
     height: 100vh;
   }
 
+  h2{
+    animation: moveInLeft 3s ease-out;
+    
+  }
+
   form {
     background-color: #b038a8;
     padding: 2.5rem;
@@ -41,12 +46,6 @@
     }
   }
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #ff5e62;
-  }
-
   input[type="text"],
   input[type="email"],
   input[type="password"] {
@@ -70,14 +69,8 @@
 
   }
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #ff5e62;
-    animation: moveInLeft 1s ease-out;
-  }
-
-  input[type="submit"] {
+  input[type="submit"],
+  input[type="submits"] {
     padding: 1rem 1.2rem;
     background-color: #ff5e62;
     color: #502c4f;
@@ -89,33 +82,36 @@
     transition: all 0.3s ease-in-out;
   }
 
-  input[type="submit"]:hover {
+  input[type="submit"]:hover,
+  input[type="submits"]:hover {
     background-color: #2c3e50;
     color: #ff5e62;
   }
+  
 
   .form-group {
     position: relative;
     margin-bottom: 2rem;
   }
-    </style>
+  
   </style>
+
 <body>
 <img src="https://cdn.shopify.com/s/files/1/0596/5728/9899/files/shopify_header_688922f6-7020-45ab-92b2-90735060c479.png?v=1629603956" style="width: 40%;" class="logo">
-  <h1>Radar Clothes</h1>
+<div class="form-container">
+<h2 style="background-color: #d13fa80e; color: rgb(255, 0, 21);">Radar Clothes - Login</h2>
   <form action="/login" method="post">
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
-    <input type= "submit" value="Register"  onclick="registerPage()"></input>
+    <input style="width: 55%"; type= "submits" value="Register"  onclick="registerPage()">
     <input type="submit" value="Login">
 </form>
-<input type= "submit" value="Register"  onclick="registerPage()"></input>
+</div>
 <script>
   function registerPage(){
     document.location.replace('./register');
   }
 </script>
-
 
 </body>
 </html>
