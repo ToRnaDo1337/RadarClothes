@@ -38,5 +38,5 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("User registered successfully!"))
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

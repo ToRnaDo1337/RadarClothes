@@ -33,7 +33,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			}
 
 			if parts[0] == username && parts[1] == password {
-				fmt.Fprintf(w, "Welcome, %s!", username)
+				w.Write([]byte("<script>alert('Welcome, %s!'); window.location='/RadarClothes';</script>"))
 				return
 			}
 		}
