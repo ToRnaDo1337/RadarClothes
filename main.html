@@ -149,6 +149,10 @@ footer p {
   <main>
     <h1>Welcome to Radar Clothes</h1>
     <p>Check out our latest collection:</p>
+    <div>
+      <input type="text" id="search-input" placeholder="Search items...">
+      <button id="search-btn">Search</button>
+    </div>
     <div id="collection">
       <div class="item">
         {{range.}}
@@ -176,11 +180,30 @@ footer p {
         <img id="zoom-in-img" src="">
       </div>
     </div>
+
+
+
   </main>
 
   <footer>
     <p>&copy; 2023 Radar Clothes</p>
   </footer>
+
+  <script>
+    $(document).ready(function() {
+      $("#search-btn").click(function() {
+        var searchText = $("#search-input").val().toLowerCase();
+        $(".item h1").each(function() {
+          var itemTitle = $(this).text().toLowerCase();
+          if (itemTitle.indexOf(searchText) !== -1) {
+            $(this).closest(".item").show();
+          } else {
+            $(this).closest(".item").hide();
+          }
+        });
+      });
+    });
+  </script>
 
   <script>
    const itemsPerPage = 3;
@@ -190,6 +213,8 @@ const pagination = document.querySelector(".pagination");
 const prevBtn = pagination.querySelector(".prev");
 const nextBtn = pagination.querySelector(".next");
 const pageBtns = pagination.querySelectorAll(".page");
+
+
 
 let currentPage = 1;
 const totalPages = Math.ceil(items.length / itemsPerPage);

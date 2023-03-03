@@ -91,13 +91,30 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Get the search query from the URL query parameters
+	searchQuery := r.URL.Query().Get("search")
+
+	// Filter the items based on the search query
+	filteredItems := make([]string, 0)
+	for _, item := range items {
+		if searchQuery != "" {
+			if !strings.Contains(strings.ToLower(item), strings.ToLower(searchQuery)) {
+				continue
+			}
+		}
+		if item == "" {
+			continue
+		}
+		filteredItems = append(filteredItems, item)
+	}
+
 	// Get the slice of items for the current page
 	start := (currentPage - 1) * itemsPerPage
 	end := start + itemsPerPage
-	if end > numItems {
-		end = numItems
+	if end > len(filteredItems) {
+		end = len(filteredItems)
 	}
-	pageItems := items[start:end]
+	pageItems := filteredItems[start:end]
 
 	// Generate the HTML for the page
 	var html strings.Builder
@@ -122,9 +139,6 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 
 	// Fill the slice with the data for each item
 	for i, item := range pageItems {
-		if item == "" {
-			continue
-		}
 		fields := strings.Split(item, ",")
 		title := fields[0]
 		description := fields[1]
