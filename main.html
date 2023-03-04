@@ -137,6 +137,11 @@ footer p {
     </div>
     <nav>
       <ul style="margin-right: 30px;">
+        <form>
+          <label for="search-input">Search:</label>
+          <input type="text" id="search-input" name="search" placeholder="Enter title or description">
+          <button type="submit">Search</button>
+        </form>
         <li><a href="#">Home</a></li>
         <li><a href="#">Catalog</a></li>
         <li><a href="#">About</a></li>
@@ -149,20 +154,15 @@ footer p {
   <main>
     <h1>Welcome to Radar Clothes</h1>
     <p>Check out our latest collection:</p>
-    <div>
-      <input type="text" id="search-input" placeholder="Search items...">
-      <button id="search-btn">Search</button>
-    </div>
     <div id="collection">
+      {{range.}}
       <div class="item">
-        {{range.}}
         <h1>{{.Title}}</h1>
         <h2>{{.Description}}</h2> 
         <img src="{{.Photo}}" width="40%">
         <button class="buy-btn">Buy</button>
-        {{end}}
       </div>
-      
+      {{end}}
     </div>
    
     <div class="pagination">
@@ -190,25 +190,39 @@ footer p {
   </footer>
 
   <script>
-    $(document).ready(function() {
-      $("#search-btn").click(function() {
-        var searchText = $("#search-input").val().toLowerCase();
-        $(".item h1").each(function() {
-          var itemTitle = $(this).text().toLowerCase();
-          if (itemTitle.indexOf(searchText) !== -1) {
-            $(this).closest(".item").show();
-          } else {
-            $(this).closest(".item").hide();
-          }
-        });
+    const form = document.querySelector('form');
+    const collection = document.querySelector('#collection');
+    const items = collection.querySelectorAll('.item');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const searchInput = event.target.search.value;
+
+      items.forEach((item) => {
+        const title = item.querySelector('h1').textContent;
+        const description = item.querySelector('h2').textContent;
+        const photo = item.querySelector('img').outerHTML;
+        const buyButton = item.querySelector('.buy-btn').outerHTML;
+
+        if (title.includes(searchInput) || description.includes(searchInput)) {
+          item.innerHTML = `
+            <h1>${title}</h1>
+            <h2>${description}</h2>
+            ${photo}
+            ${buyButton}
+          `;
+          console.log(title);
+          console.log(description);
+        } else {
+          item.style.display = 'none';
+        }
       });
     });
   </script>
+  
 
   <script>
    const itemsPerPage = 3;
-const collection = document.querySelector("#collection");
-const items = collection.querySelectorAll(".item");
 const pagination = document.querySelector(".pagination");
 const prevBtn = pagination.querySelector(".prev");
 const nextBtn = pagination.querySelector(".next");

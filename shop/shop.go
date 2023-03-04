@@ -73,7 +73,7 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 	items := strings.Split(string(data), "\n")
 
 	// Set the number of items per page
-	itemsPerPage := 3
+	itemsPerPage := 1000
 
 	// Calculate the total number of pages
 	numItems := len(items)
