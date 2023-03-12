@@ -11,6 +11,7 @@ import (
 func main() {
 	http.HandleFunc("/register", registration.Register)
 	http.HandleFunc("/login", login.Login)
+	http.HandleFunc("/RadarClothes/rate", shop.RateHandler)
 	http.HandleFunc("/addingItems", shop.HandleIndex)
 	http.HandleFunc("/RadarClothes", shop.HandleItems)
 	http.ListenAndServe(":8080", nil)

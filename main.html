@@ -155,15 +155,38 @@ footer p {
     <h1>Welcome to Radar Clothes</h1>
     <p>Check out our latest collection:</p>
     <div id="collection">
-      {{range.}}
+      {{range $index, $element := .}}
       <div class="item">
         <h1>{{.Title}}</h1>
         <h2>{{.Description}}</h2> 
         <img src="{{.Photo}}" width="40%">
         <button class="buy-btn">Buy</button>
+        <div>
+          <form method="post" action="/RadarClothes/rate">
+          <label for="stars-{{$index}}">Stars:</label>
+          <select id="stars-{{$index}}" name="stars">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <label for="comments-{{$index}}">Comments:</label>
+          <textarea id="comments-{{$index}}" name="comments"></textarea>
+        </div>
+        <input type="hidden" name="itemID" value="{{$index}}">
+        <div>
+          <input class = "submitRate" type="submit" value="Rate">
+        </div>
+      </form>
       </div>
       {{end}}
     </div>
+
+    
+    
    
     <div class="pagination">
       <a href="#" class="prev">&laquo; Prev</a>
@@ -181,13 +204,15 @@ footer p {
       </div>
     </div>
 
-
+ 
 
   </main>
 
   <footer>
     <p>&copy; 2023 Radar Clothes</p>
   </footer>
+
+
 
   <script>
     const form = document.querySelector('form');
@@ -203,6 +228,9 @@ footer p {
         const description = item.querySelector('h2').textContent;
         const photo = item.querySelector('img').outerHTML;
         const buyButton = item.querySelector('.buy-btn').outerHTML;
+        const stars = item.querySelector("select").outerHTML;
+        const comments = item.querySelector("textarea").outerHTML;
+        const rate = item.querySelector(".submitRate").outerHTML;
 
         if (title.includes(searchInput) || description.includes(searchInput)) {
           item.innerHTML = `
@@ -210,7 +238,15 @@ footer p {
             <h2>${description}</h2>
             ${photo}
             ${buyButton}
-          `;
+            <div>
+            Stars: ${stars}
+            <div>
+              Comments: ${comments}
+            ${rate}
+              </div>
+            
+              </div>
+            `;
           console.log(title);
           console.log(description);
         } else {
