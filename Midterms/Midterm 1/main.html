@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Radar Clothes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<style>
+	body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f08;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.logo img {
+  max-width: 100px;
+  height: auto;
+}
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: #f08;
+}
+
+main {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.collection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.collection img {
+  width: 300px;
+  margin: 0 20px;
+  border: 5px solid #f08;
+  box-shadow: 0 0 10px #f08;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: #f08;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+footer p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+}
+#zoom-in-container {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.9);
+}
+
+#zoom-in {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 1000px;
+  height: auto;
+}
+
+#zoom-in-img {
+  width: 100%;
+  height: auto;
+}
+.buy-btn {
+  background-color: #21FDEF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.buy-btn:hover {
+  background-color: #ff6f7d;
+}
+
+</style>
+
+  <header>
+    <div class="logo">
+      <img src="http://cdn.shopify.com/s/files/1/0596/5728/9899/files/shopify_header_688922f6-7020-45ab-92b2-90735060c479.png?v=1629603956" alt="Radar Clothes">
+    </div>
+    <nav>
+      <ul style="margin-right: 30px;">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Catalog</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="./addingItems">AddItems</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <form style="margin-left: 100px;">
+        <label for="search-input">Search:</label>
+        <input type="text" id="search-input" name="search" placeholder="Enter title or description">
+        <button type="submit">Search</button>
+      </form>
+    </nav>
+  </header>
+  
+  <main>
+    <h1>Welcome to Radar Clothes</h1>
+    <p>Check out our latest collection:</p>
+    <div id="collection">
+      {{range $index, $element := .}}
+      <div class="item">
+        <h1>{{.Title}}</h1>
+        <h2>{{.Description}}</h2> 
+        <img src="{{.Photo}}" width="40%">
+        <button class="buy-btn">Buy</button>
+        <div>
+          <form method="post" action="/RadarClothes/rate">
+          <label for="stars-{{$index}}">Stars:</label>
+          <select id="stars-{{$index}}" name="stars">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <label for="comments-{{$index}}">Comments:</label>
+          <textarea id="comments-{{$index}}" name="comments"></textarea>
+        </div>
+        <input type="hidden" name="itemID" value="{{$index}}">
+        <div>
+          <input class = "submitRate" type="submit" value="Rate">
+        </div>
+      </form>
+      </div>
+      {{end}}
+    </div>
+
+    
+    
+   
+    <div class="pagination">
+      <a href="#" class="prev">&laquo; Prev</a>
+      <a href="#" class="page active">1</a>
+      <a href="#" class="page">2</a>
+      <a href="#" class="page">3</a>
+      <a href="#" class="next">Next &raquo;</a>
+    </div>  
+
+
+
+    <div id="zoom-in-container">
+      <div id="zoom-in">
+        <img id="zoom-in-img" src="">
+      </div>
+    </div>
+
+ 
+
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Radar Clothes</p>
+  </footer>
+
+
+
+  <script>
+    const form = document.querySelector('form');
+    const collection = document.querySelector('#collection');
+    const items = collection.querySelectorAll('.item');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const searchInput = event.target.search.value;
+
+      items.forEach((item) => {
+        const title = item.querySelector('h1').textContent;
+        const description = item.querySelector('h2').textContent;
+        const photo = item.querySelector('img').outerHTML;
+        const buyButton = item.querySelector('.buy-btn').outerHTML;
+        const stars = item.querySelector("select").outerHTML;
+        const comments = item.querySelector("textarea").outerHTML;
+        const rate = item.querySelector(".submitRate").outerHTML;
+
+        if (title.includes(searchInput) || description.includes(searchInput)) {
+          item.innerHTML = `
+            <h1>${title}</h1>
+            <h2>${description}</h2>
+            ${photo}
+            ${buyButton}
+            <div>
+            Stars: ${stars}
+            <div>
+              Comments: ${comments}
+            ${rate}
+              </div>
+            
+              </div>
+            `;
+          console.log(title);
+          console.log(description);
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  </script>
+  
+
+  <script>
+   const itemsPerPage = 3;
+const pagination = document.querySelector(".pagination");
+const prevBtn = pagination.querySelector(".prev");
+const nextBtn = pagination.querySelector(".next");
+const pageBtns = pagination.querySelectorAll(".page");
+
+
+
+let currentPage = 1;
+const totalPages = Math.ceil(items.length / itemsPerPage);
+
+function showPage(page) {
+  // Hide all items
+  items.forEach(item => {
+    item.style.display = "none";
+  });
+
+  // Show items for current page
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  for (let i = startIndex; i < endIndex && i < items.length; i++) {
+    items[i].style.display = "block";
+  }
+}
+
+function updatePagination() {
+  // Disable prev/next buttons on first/last page
+  if (currentPage === 1) {
+    prevBtn.classList.add("disabled");
+  } else {
+    prevBtn.classList.remove("disabled");
+  }
+  if (currentPage === totalPages) {
+    nextBtn.classList.add("disabled");
+  } else {
+    nextBtn.classList.remove("disabled");
+  }
+
+  // Update page buttons
+  let startPage, endPage;
+  if (totalPages <= 3) {
+    startPage = 1;
+    endPage = totalPages;
+  } else {
+    if (currentPage <= 2) {
+      startPage = 1;
+      endPage = 3;
+    } else if (currentPage >= totalPages - 1) {
+      startPage = totalPages - 2;
+      endPage = totalPages;
+    } else {
+      startPage = currentPage - 1;
+      endPage = currentPage + 1;
+    }
+  }
+  for (let i = 0; i < pageBtns.length; i++) {
+    const btn = pageBtns[i];
+    const pageNumber = i + 1;
+    if (pageNumber >= startPage && pageNumber <= endPage) {
+      btn.style.display = "inline-block";
+      btn.innerText = pageNumber;
+    } else {
+      btn.style.display = "none";
+    }
+  }
+}
+
+// Initial page load
+showPage(currentPage);
+updatePagination();
+
+// Pagination button event listeners
+prevBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    showPage(currentPage);
+    updatePagination();
+  }
+});
+nextBtn.addEventListener("click", () => {
+  if (currentPage < totalPages) {
+    currentPage++;
+    showPage(currentPage);
+    updatePagination();
+  }
+});
+pageBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const pageNumber = parseInt(btn.innerText);
+    if (pageNumber !== currentPage) {
+      currentPage = pageNumber;
+      showPage(currentPage);
+      updatePagination();
+    }
+  });
+});
+  </script>
+</body>
+</html>
