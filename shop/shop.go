@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -23,6 +24,16 @@ type ItemData struct {
 	Title       string
 	Description string
 	Photo       string
+}
+
+type TemplateData struct {
+	Ratings []Rating
+	Items   []ItemData
+}
+
+type ItemRatingData struct {
+	ItemData ItemData
+	Rating   Rating
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -125,6 +136,7 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 	// Add the main.html template
 	mainTmpl, err := template.ParseFiles("main.html")
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "Error parsing template", http.StatusBadRequest)
 		return
 	}
@@ -140,13 +152,17 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 		photo := fields[2]
 
 		itemData[i] = ItemData{title, description, photo}
+
 	}
 
 	// Execute the template, passing in the slice of ItemData structs and pagination variables
-	err = mainTmpl.Execute(&html, itemData)
+
+	datas := TemplateData{ratings, itemData}
+	err = mainTmpl.Execute(&html, datas)
 
 	if err != nil {
-		http.Error(w, "Error executing template", http.StatusBadRequest)
+		log.Println(err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
@@ -231,5 +247,5 @@ func RateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Redirect to home page
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/RadarClothes", http.StatusSeeOther)
 }

@@ -1,7 +1,2 @@
-0 1 dsa
-1 4 Ne nravitsya
-0 5 Kruto
-0 1 222
-0 3 sadsa
-0 1 425
-0 4 aasas
+1 1 Ужасно
+2 4 Не плохо2 1

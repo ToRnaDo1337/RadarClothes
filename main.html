@@ -155,39 +155,41 @@ footer p {
     <h1>Welcome to Radar Clothes</h1>
     <p>Check out our latest collection:</p>
     <div id="collection">
-      {{range $index, $element := .}}
+      {{range $index, $element := .Items}}
       <div class="item">
-        <h1>{{.Title}}</h1>
-        <h2>{{.Description}}</h2> 
-        <img src="{{.Photo}}" width="40%">
+        <h1>{{$element.Title}}</h1>
+        <h2>{{$element.Description}}</h2> 
+        <img src="{{$element.Photo}}" width="40%">
         <button class="buy-btn">Buy</button>
-        <div>
-          <form method="post" action="/RadarClothes/rate">
-          <label for="stars-{{$index}}">Stars:</label>
-          <select id="stars-{{$index}}" name="stars">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+        <div class="ratings-container">
         </div>
-        <div>
-          <label for="comments-{{$index}}">Comments:</label>
-          <textarea id="comments-{{$index}}" name="comments"></textarea>
-        </div>
-        <input type="hidden" name="itemID" value="{{$index}}">
-        <div>
-          <input class = "submitRate" type="submit" value="Rate">
-        </div>
-      </form>
+        <form method="post" action="/RadarClothes/rate">
+          <div>
+            <label for="stars-{{$index}}">Stars:</label>
+            <select id="stars-{{$index}}" name="stars">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div>
+            <label for="comments-{{$index}}">Comments:</label>
+            <textarea id="comments-{{$index}}" name="comments"></textarea>
+          </div>
+          <input type="hidden" name="itemID" value="{{$index}}">
+          <div>
+            <input class = "submitRate" type="submit" value="Rate">
+          </div>
+        </form>
       </div>
-      {{end}}
-    </div>
-
-    
-    
-   
+    {{end}}
+    <div id="collection">
+    {{range .Ratings}} 
+    <h2>{{.itemID}}</h2>
+    {{end}}
+  </div>
     <div class="pagination">
       <a href="#" class="prev">&laquo; Prev</a>
       <a href="#" class="page active">1</a>
