@@ -1,8 +1,4 @@
-sadasd,asds,https://www.loveyourclothes.org.uk/sites/default/files/styles/responsive/public/lyc-campaigns-website-header-1600.jpg?itok=SWO-SNae
-Ya,Proverka,https://staticassets.oxfam.org.uk/oxfamgb-production/images/shutterstock_1005636568.width-1000.jpg
-Ygga,Veshi,https://staticassets.oxfam.org.uk/oxfamgb-production/images/shutterstock_1005636568.width-1000.jpg
-dasd,asds,https://www.loveyourclothes.org.uk/sites/default/files/styles/responsive/public/lyc-campaigns-website-header-1600.jpg?itok=SWO-SNae
-Ya,Krasava,https://www.thevoicemag.ru/upload/img_cache/9ba/9ba0e2a4fd3eb86f91d238fd0eb62966_fitted_1332x0.jpg
-Eldar,Sdelal,https://upload.wikimedia.org/wikipedia/ru/9/94/%D0%93%D0%B8%D0%B3%D0%B0%D1%87%D0%B0%D0%B4.jpg
-jpgasdas,dassda,https://www.thevoicemag.ru/upload/img_cache/9ba/9ba0e2a4fd3eb86f91d238fd0eb62966_fitted_1332x0.jpg
-AAAAAAAA,AAAAAAA,https://www.meme-arsenal.com/memes/0d8d948ecf720305ec2072e48b9ce3f1.jpg
+First,Second,https://rb.gy/6bpa,450040,2023-03-30
+Rafa,Item,https://rb.gy/0k1j,5000,2023-03-30
+New,Brand,https://rb.gy/626v,2000,2023-03-30
+New,Item,https://rb.gy/626v,30000,2023-03-30

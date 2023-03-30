@@ -8,8 +8,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Rating struct {
@@ -24,6 +26,8 @@ type ItemData struct {
 	Title       string
 	Description string
 	Photo       string
+	Price       float64
+	Date        time.Time
 }
 
 type TemplateData struct {
@@ -48,13 +52,15 @@ func HandleIndex(w http.ResponseWriter, r *http.Request) {
 		title := r.FormValue("title")
 		description := r.FormValue("description")
 		photo := r.FormValue("photoURL")
+		price := r.FormValue("price")
+		date := time.Now()
 
 		f, err := os.OpenFile("./uploads/"+photo, os.O_WRONLY|os.O_CREATE, 0666)
 
 		defer f.Close()
 
 		// Save the form data to a file
-		data := fmt.Sprintf("%s,%s,%s\n", title, description, photo)
+		data := fmt.Sprintf("%s,%s,%s,%s,%s\n", title, description, photo, price, date.Format("2006-01-02"))
 		if err := os.MkdirAll("./data", 0755); err != nil {
 			http.Error(w, "Error creating data directory", http.StatusBadRequest)
 			return
@@ -84,6 +90,19 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 
 	// Split the data into individual items
 	items := strings.Split(string(data), "\n")
+
+	// Sort the items by price
+	sort.Slice(items, func(i, j int) bool {
+		parts1 := strings.Split(items[i], ",")
+		parts2 := strings.Split(items[j], ",")
+		if len(parts1) < 4 || len(parts2) < 4 {
+			// Handle error, e.g. by returning a default value or logging a message.
+			return false
+		}
+		price1, _ := strconv.ParseFloat(parts1[3], 64)
+		price2, _ := strconv.ParseFloat(parts2[3], 64)
+		return price1 < price2
+	})
 
 	// Set the number of items per page
 	itemsPerPage := 1000
@@ -147,12 +166,24 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 	// Fill the slice with the data for each item
 	for i, item := range pageItems {
 		fields := strings.Split(item, ",")
+		if len(fields) < 4 {
+			http.Error(w, "Invalid data format", http.StatusBadRequest)
+			return
+		}
 		title := fields[0]
 		description := fields[1]
 		photo := fields[2]
-
-		itemData[i] = ItemData{title, description, photo}
-
+		price, err := strconv.ParseFloat(fields[3], 64)
+		if err != nil {
+			http.Error(w, "Error parsing price", http.StatusBadRequest)
+			return
+		}
+		date, err := time.Parse("2006-01-02", fields[4])
+		if err != nil {
+			http.Error(w, "Error parsing date", http.StatusBadRequest)
+			return
+		}
+		itemData[i] = ItemData{title, description, photo, price, date}
 	}
 
 	// Execute the template, passing in the slice of ItemData structs and pagination variables

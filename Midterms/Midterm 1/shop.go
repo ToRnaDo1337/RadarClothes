@@ -97,6 +97,10 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 	searchQuery := r.URL.Query().Get("search")
 
 	// Filter the items based on the search query
+	price, err := strconv.ParseFloat(r.URL.Query().Get("price"), 64)
+	if err != nil {
+		price = 0
+	}
 	filteredItems := make([]string, 0)
 	for _, item := range items {
 		if searchQuery != "" {
@@ -106,6 +110,16 @@ func HandleItems(w http.ResponseWriter, r *http.Request) {
 		}
 		if item == "" {
 			continue
+		}
+		fields := strings.Split(item, ",")
+		if len(fields) < 4 {
+			continue
+		}
+		if price > 0 {
+			itemPrice, err := strconv.ParseFloat(fields[3], 64)
+			if err != nil || itemPrice > price {
+				continue
+			}
 		}
 		filteredItems = append(filteredItems, item)
 	}
@@ -232,4 +246,13 @@ func RateHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Redirect to home page
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func getRating(itemID int) Rating {
+	for _, rating := range ratings {
+		if rating.ItemID == itemID {
+			return rating
+		}
+	}
+	return Rating{}
 }
