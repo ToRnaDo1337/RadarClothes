@@ -1,0 +1,7 @@
+0 5 asdasf
+0 4 assda
+0 2 asdsa
+0 1 sasdsa
+1 1 afsfas
+0 1 asdas
+0 1 aaaaaaaaaa

@@ -232,7 +232,7 @@ func RateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Write rating to file
-	f, err := os.OpenFile("Rating.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("./data/Rating.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		http.Error(w, "Failed to open rating file", http.StatusInternalServerError)
 		return

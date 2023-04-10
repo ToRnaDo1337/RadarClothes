@@ -2,3 +2,4 @@ First,Second,https://rb.gy/6bpa,450040,2023-03-30
 Rafa,Item,https://rb.gy/0k1j,5000,2023-03-30
 New,Brand,https://rb.gy/626v,2000,2023-03-30
 New,Item,https://rb.gy/626v,30000,2023-03-30
+Gucci,Prada,https://4.imimg.com/data4/HR/RK/MY-6432415/cotton-cloth-250x250.jpg,20000,2023-04-03

@@ -82,6 +82,54 @@ func HandleIndex(w http.ResponseWriter, r *http.Request) {
 
 func HandleItems(w http.ResponseWriter, r *http.Request) {
 
+	// Load the ratings from the file
+	ratingData, err := ioutil.ReadFile("./data/Rating.txt")
+	if err != nil {
+		http.Error(w, "Error reading ratings data", http.StatusBadRequest)
+		return
+	}
+
+	// Split the data into individual ratings
+	ratingLines := strings.Split(string(ratingData), "\n")
+
+	// Parse the rating lines into Rating structs
+	ratings := make([]Rating, 0)
+	for _, line := range ratingLines {
+		fields := strings.Split(line, " ")
+		if len(fields) < 3 {
+			continue
+		}
+		itemID, _ := strconv.Atoi(fields[0])
+		stars, _ := strconv.Atoi(fields[1])
+		comment := fields[2]
+		rating := Rating{
+			ItemID:   itemID,
+			Stars:    stars,
+			Comments: comment,
+		}
+		ratings = append(ratings, rating)
+	}
+
+	// Sort the ratings by star rating, from best to worst
+	sort.Slice(ratings, func(i, j int) bool {
+		return ratings[i].Stars > ratings[j].Stars
+	})
+
+	// Write the sorted ratings back to the file
+	f, err := os.OpenFile("./data/Rating.txt", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	if err != nil {
+		http.Error(w, "Error opening ratings file", http.StatusBadRequest)
+		return
+	}
+	defer f.Close()
+	for _, rating := range ratings {
+		line := fmt.Sprintf("%d %d %s\n", rating.ItemID, rating.Stars, rating.Comments)
+		if _, err := f.WriteString(line); err != nil {
+			http.Error(w, "Error writing ratings data", http.StatusBadRequest)
+			return
+		}
+	}
+
 	data, err := ioutil.ReadFile("./data/items.txt")
 	if err != nil {
 		http.Error(w, "Error reading data", http.StatusBadRequest)
@@ -265,7 +313,7 @@ func RateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Write rating to file
-	f, err := os.OpenFile("Rating.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("./data/Rating.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		http.Error(w, "Failed to open rating file", http.StatusInternalServerError)
 		return
