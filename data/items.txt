@@ -3,3 +3,4 @@ Rafa,Item,https://rb.gy/0k1j,5000,2023-03-30
 New,Brand,https://rb.gy/626v,2000,2023-03-30
 New,Item,https://rb.gy/626v,30000,2023-03-30
 Gucci,Prada,https://4.imimg.com/data4/HR/RK/MY-6432415/cotton-cloth-250x250.jpg,20000,2023-04-03
+NewItem,CoolItem,https://www.thoughtco.com/thmb/ctxxtfGGeK5f_-S3f8J-jbY-Gp8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/close-up-of-clothes-hanging-in-row-739240657-5a78b11f8e1b6e003715c0ec.jpg,30000,2023-04-18

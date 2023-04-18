@@ -1,5 +1,7 @@
 0 5 asdasf
+4 5 Cool
 0 4 assda
+3 3 Not
 0 2 asdsa
 0 1 sasdsa
 1 1 afsfas
